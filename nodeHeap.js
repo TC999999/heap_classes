@@ -123,9 +123,14 @@ class NodeHeap {
   //the new top node then sinks down to its proper place. Returns all the nodes that were removed from
   //the heap.
   removeMax(i = 1) {
-    if (i > this._items.length) {
+    if (this._items.length === 0) {
+      throw new Error("heap is empty");
+    } else if (i > this._items.length) {
       throw new Error("removal number larger that heap length");
+    } else if (i < 1) {
+      throw new Error("removal number less that heap length");
     }
+
     let returnArr = [];
     while (i > 0) {
       let oldTop = this._items.shift();
@@ -155,7 +160,6 @@ function heapSort(arr) {
 
 let nh = new NodeHeap();
 let nh2 = new NodeHeap();
-let nh3 = new NodeHeap();
 
 let arr = [
   { priority: 36, val: "second most important" },
@@ -169,21 +173,9 @@ let arr = [
   { priority: 19, val: "fourth most important" },
   { priority: 9, val: "sixth most important" },
 ];
+nh.create(arr);
 
-nh.create([
-  { priority: 36, val: "second most important" },
-  { priority: 7, val: "seventh most important" },
-  { priority: 25, val: "third most important" },
-  { priority: 2, val: "ninth most important" },
-  { priority: 1, val: "least important" },
-  { priority: 99, val: "Most Important" },
-  { priority: 3, val: "eighth most important" },
-  { priority: 17, val: "fifth most important" },
-  { priority: 19, val: "fourth most important" },
-  { priority: 9, val: "sixth most important" },
-]);
-
-nh2.create([
+let arr2 = [
   { priority: 41, val: "sixth most important" },
   { priority: 23, val: "eighth most important" },
   { priority: 82, val: "second most important" },
@@ -194,27 +186,7 @@ nh2.create([
   { priority: 41, val: "sixth most important" },
   { priority: 72, val: "third most important" },
   { priority: 28, val: "seventh most important" },
-]);
+];
+nh2.create(arr2);
 
-nh3.create([
-  { priority: 15, val: "sixth most important" },
-  { priority: 40, val: "eighth most important" },
-  { priority: 100, val: "second most important" },
-  { priority: 50, val: "fourth most important" },
-  { priority: 10, val: "fifth most important" },
-  { priority: 50, val: "least important" },
-  { priority: 40, val: "Most Important" },
-]);
-
-// nh2.create([
-//   { priority: 41, val: "seventh most important" },
-//   { priority: 23, val: "ninth most important" },
-//   { priority: 82, val: "second most important" },
-//   { priority: 58, val: "fourth most important" },
-//   { priority: 55, val: "fifth most important" },
-//   { priority: 4, val: "least important" },
-//   { priority: 94, val: "Most Important" },
-//   { priority: 42, val: "sixth most important" },
-//   { priority: 72, val: "third most important" },
-//   { priority: 28, val: "eigth most important" },
-// ]);
+module.exports = { NodeHeap };

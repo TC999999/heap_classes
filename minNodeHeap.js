@@ -47,7 +47,7 @@ class MinNodeHeap {
 
   //inserts a new node at the bottom of the heap and bubbles it up until it reaches its proper place
   insert(priority, val) {
-    let node = new Node(priority, val);
+    let node = new MinNode(priority, val);
     this._items.push(node);
     if (this._items.length > 1) {
       this.bubbleUp();
@@ -119,8 +119,12 @@ class MinNodeHeap {
   //the new top node then sinks down to its proper place. Returns all the nodes that were removed from
   //the heap.
   removeMin(i = 1) {
-    if (i > this._items.length) {
+    if (this._items.length === 0) {
+      throw new Error("heap is empty");
+    } else if (i > this._items.length) {
       throw new Error("removal number larger that heap length");
+    } else if (i < 1) {
+      throw new Error("removal number less that heap length");
     }
     let returnArr = [];
     while (i > 0) {
@@ -143,17 +147,19 @@ class MinNodeHeap {
   }
 }
 
-let mnh = new MinNodeHeap();
+// let mnh = new MinNodeHeap();
 
-mnh.create([
-  { priority: 36, val: "second most important" },
-  { priority: 7, val: "seventh most important" },
-  { priority: 25, val: "third most important" },
-  { priority: 2, val: "ninth most important" },
-  { priority: 1, val: "least important" },
-  { priority: 99, val: "Most Important" },
-  { priority: 3, val: "eighth most important" },
-  { priority: 17, val: "fifth most important" },
-  { priority: 19, val: "fourth most important" },
-  { priority: 9, val: "sixth most important" },
-]);
+// mnh.create([
+//   { priority: 36, val: "second most important" },
+//   { priority: 7, val: "seventh most important" },
+//   { priority: 25, val: "third most important" },
+//   { priority: 2, val: "ninth most important" },
+//   { priority: 1, val: "least important" },
+//   { priority: 99, val: "Most Important" },
+//   { priority: 3, val: "eighth most important" },
+//   { priority: 17, val: "fifth most important" },
+//   { priority: 19, val: "fourth most important" },
+//   { priority: 9, val: "sixth most important" },
+// ]);
+
+module.exports = { MinNodeHeap };

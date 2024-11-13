@@ -158,35 +158,4 @@ function heapSort(arr) {
   return sortHeap.removeMax(arr.length);
 }
 
-let nh = new NodeHeap();
-let nh2 = new NodeHeap();
-
-let arr = [
-  { priority: 36, val: "second most important" },
-  { priority: 7, val: "seventh most important" },
-  { priority: 25, val: "third most important" },
-  { priority: 2, val: "ninth most important" },
-  { priority: 1, val: "least important" },
-  { priority: 99, val: "Most Important" },
-  { priority: 3, val: "eighth most important" },
-  { priority: 17, val: "fifth most important" },
-  { priority: 19, val: "fourth most important" },
-  { priority: 9, val: "sixth most important" },
-];
-nh.create(arr);
-
-let arr2 = [
-  { priority: 41, val: "sixth most important" },
-  { priority: 23, val: "eighth most important" },
-  { priority: 82, val: "second most important" },
-  { priority: 58, val: "fourth most important" },
-  { priority: 55, val: "fifth most important" },
-  { priority: 4, val: "least important" },
-  { priority: 94, val: "Most Important" },
-  { priority: 41, val: "sixth most important" },
-  { priority: 72, val: "third most important" },
-  { priority: 28, val: "seventh most important" },
-];
-nh2.create(arr2);
-
 module.exports = { NodeHeap };

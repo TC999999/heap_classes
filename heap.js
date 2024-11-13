@@ -79,7 +79,3 @@ class Heap {
     return this._items;
   }
 }
-
-let h = new Heap();
-
-h.create([36, 7, 25, 2, 1, 99, 3, 17, 19, 9]);

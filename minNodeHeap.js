@@ -147,19 +147,4 @@ class MinNodeHeap {
   }
 }
 
-// let mnh = new MinNodeHeap();
-
-// mnh.create([
-//   { priority: 36, val: "second most important" },
-//   { priority: 7, val: "seventh most important" },
-//   { priority: 25, val: "third most important" },
-//   { priority: 2, val: "ninth most important" },
-//   { priority: 1, val: "least important" },
-//   { priority: 99, val: "Most Important" },
-//   { priority: 3, val: "eighth most important" },
-//   { priority: 17, val: "fifth most important" },
-//   { priority: 19, val: "fourth most important" },
-//   { priority: 9, val: "sixth most important" },
-// ]);
-
 module.exports = { MinNodeHeap };

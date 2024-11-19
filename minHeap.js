@@ -1,4 +1,4 @@
-class Heap {
+class MinHeap {
   constructor() {
     this._items = [];
   }
@@ -15,7 +15,7 @@ class Heap {
       swapIdx--;
     }
     let swapVal = this._items[swapIdx];
-    while (val > swapVal) {
+    while (val < swapVal) {
       this._items[currentIdx] = swapVal;
       this._items[swapIdx] = val;
       currentIdx = swapIdx;
@@ -49,22 +49,22 @@ class Heap {
     let left = this._items[leftIDX];
     let right = this._items[rightIDX];
     if (right) {
-      while (left && right && (bottom <= left || bottom <= right)) {
-        if (bottom <= left && bottom <= right) {
-          if (right >= left) {
+      while (left && right && (bottom >= left || bottom >= right)) {
+        if (bottom >= left && bottom >= right) {
+          if (right <= left) {
             this._items[rightIDX] = bottom;
             this._items[bottomIdx] = right;
             bottomIdx = rightIDX;
-          } else if (right <= left) {
+          } else if (right >= left) {
             this._items[leftIDX] = bottom;
             this._items[bottomIdx] = left;
             bottomIdx = leftIDX;
           }
-        } else if (bottom <= left && bottom >= right) {
+        } else if (bottom >= left && bottom <= right) {
           this._items[leftIDX] = bottom;
           this._items[bottomIdx] = left;
           bottomIdx = leftIDX;
-        } else if (bottom >= left && bottom <= right) {
+        } else if (bottom <= left && bottom >= right) {
           this._items[rightIDX] = bottom;
           this._items[bottomIdx] = right;
           bottomIdx = rightIDX;
@@ -75,7 +75,7 @@ class Heap {
         right = this._items[rightIDX];
       }
     } else {
-      if (bottom <= left) {
+      if (bottom >= left) {
         this._items[leftIDX] = bottom;
         this._items[bottomIdx] = left;
         bottomIdx = leftIDX;
@@ -83,7 +83,7 @@ class Heap {
     }
   }
 
-  removeMax(i = 1) {
+  removeMin(i = 1) {
     if (this._items.length === 0) {
       throw new Error("heap is empty");
     } else if (i > this._items.length) {
@@ -108,10 +108,10 @@ class Heap {
   }
 }
 
-function heapSort(arr) {
-  let sortHeap = new Heap();
+function minHeapSort(arr) {
+  let sortHeap = new MinHeap();
   sortHeap.create(arr);
-  return sortHeap.removeMax(arr.length);
+  return sortHeap.removeMin(arr.length);
 }
 
-module.exports = { Heap, heapSort };
+module.exports = { MinHeap, minHeapSort };

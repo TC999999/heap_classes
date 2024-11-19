@@ -147,4 +147,10 @@ class MinNodeHeap {
   }
 }
 
-module.exports = { MinNodeHeap };
+function minHeapSort(arr) {
+  let sortHeap = new MinNodeHeap();
+  sortHeap.create(arr);
+  return sortHeap.removeMin(arr.length);
+}
+
+module.exports = { MinNodeHeap, minHeapSort };

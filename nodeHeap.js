@@ -66,7 +66,6 @@ class NodeHeap {
   //its child node if it has a greater priority value (if current node has two child nodes and both values are
   //higher, swaps with the child node with the higher value). Continues until both of the the current node's
   //child nodes' priority values are greater than its own or if the current node has no more child nodes.
-
   sinkDown() {
     let currIdx = 0;
     let leftIDX = 1;
@@ -152,10 +151,10 @@ class NodeHeap {
   }
 }
 
-function heapSort(arr) {
+function maxHeapSort(arr) {
   let sortHeap = new NodeHeap();
   sortHeap.create(arr);
   return sortHeap.removeMax(arr.length);
 }
 
-module.exports = { NodeHeap };
+module.exports = { NodeHeap, maxHeapSort };

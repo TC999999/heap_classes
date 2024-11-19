@@ -1,4 +1,4 @@
-let { NodeHeap } = require("./nodeHeap");
+let { NodeHeap, maxHeapSort } = require("./nodeHeap");
 
 describe("Max Node Heap", function () {
   let nh;
@@ -19,13 +19,13 @@ describe("Max Node Heap", function () {
     nh.create(arr);
   });
 
-  test("gets the first node of the priority queue, which should be the most important", function () {
+  test("getNext() returns the first node of the priority queue, which should be the most important", function () {
     const node = nh.getNext();
     expect(node.priority).toEqual(99);
     expect(node.value).toBe("most important");
   });
 
-  test("when the first node of the priority queue is removed, replaces it with the next most important node", function () {
+  test("removeMax() returns and removes the first node of the priority queue and replaces it with the next most important node", function () {
     const node1 = nh.removeMax();
     expect(node1.priority).toEqual(99);
     expect(node1.val).toBe("most important");
@@ -35,7 +35,7 @@ describe("Max Node Heap", function () {
     expect(node2.value).toBe("second most important");
   });
 
-  test("removing all nodes returns an array of all the nodes in reverse sorted order", function () {
+  test("removeMax(arr.length) removes all nodes from the heap and returns an array of all the nodes in order from greatest to least", function () {
     const nodeArr = nh.removeMax(arr.length);
     let priorityArr = nodeArr.map((n) => {
       return n.priority;
@@ -43,19 +43,22 @@ describe("Max Node Heap", function () {
     expect(priorityArr).toEqual([99, 36, 25, 19, 17, 9, 7, 3, 2, 1]);
   });
 
-  test("error thrown if removal number is greater than heap length", function () {
-    try {
-      nh.removeMax(arr.length + 1);
-    } catch (err) {
-      expect(err.message).toEqual("removal number larger that heap length");
-    }
+  test("removeMax() throws an error if removal number is greater than heap length", function () {
+    expect(() => nh.removeMax(arr.length + 1)).toThrow(
+      "removal number larger that heap length"
+    );
   });
 
-  test("error thrown if removal number is zero or less", function () {
-    try {
-      nh.removeMax(0);
-    } catch (err) {
-      expect(err.message).toEqual("removal number less that heap length");
-    }
+  test("removeMax() throws an error  if removal number is zero or less", function () {
+    expect(() => nh.removeMax(0)).toThrow(
+      "removal number less that heap length"
+    );
+  });
+
+  test("maxHeapSort() returns a sorted array from greatest to lest using a heap", function () {
+    let HSArr = maxHeapSort(arr).map((v) => {
+      return v.priority;
+    });
+    expect(HSArr).toEqual([99, 36, 25, 19, 17, 9, 7, 3, 2, 1]);
   });
 });

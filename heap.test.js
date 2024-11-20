@@ -38,6 +38,13 @@ describe("Max Heap", function () {
     ]);
   });
 
+  test("create() and removeMax(): inserting an array of values ensures that the removal order is still kept", function () {
+    h.create([22, 45, 87, 32]);
+    expect(h.removeMax(arr.length + 4)).toEqual([
+      99, 87, 45, 36, 32, 25, 22, 19, 17, 9, 7, 3, 2, 1,
+    ]);
+  });
+
   test("removeMax() throws an error if removal number is greater than heap length", function () {
     expect(() => h.removeMax(arr.length + 1)).toThrow(
       "removal number larger that heap length"

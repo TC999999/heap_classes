@@ -3,16 +3,16 @@ let { NodeHeap, maxHeapSort } = require("./nodeHeap");
 describe("Max Node Heap", function () {
   let nh;
   let arr = [
-    { priority: 36, val: "second most important" },
-    { priority: 7, val: "seventh most important" },
-    { priority: 25, val: "third most important" },
-    { priority: 2, val: "ninth most important" },
-    { priority: 1, val: "least important" },
-    { priority: 99, val: "most important" },
-    { priority: 3, val: "eighth most important" },
-    { priority: 17, val: "fifth most important" },
-    { priority: 19, val: "fourth most important" },
-    { priority: 9, val: "sixth most important" },
+    { priority: 36, value: "second most important" },
+    { priority: 7, value: "seventh most important" },
+    { priority: 25, value: "third most important" },
+    { priority: 2, value: "ninth most important" },
+    { priority: 1, value: "least important" },
+    { priority: 99, value: "most important" },
+    { priority: 3, value: "eighth most important" },
+    { priority: 17, value: "fifth most important" },
+    { priority: 19, value: "fourth most important" },
+    { priority: 9, value: "sixth most important" },
   ];
   beforeEach(function () {
     nh = new NodeHeap();
@@ -25,10 +25,24 @@ describe("Max Node Heap", function () {
     expect(node.value).toBe("most important");
   });
 
+  test("insert(): inserting a large value bubbles it up to the top", function () {
+    nh.insert(100, "the new most important");
+    const node = nh.getNext();
+    expect(node.priority).toEqual(100);
+    expect(node.value).toBe("the new most important");
+  });
+
+  test("insert(): inserting a small value keeps it sunk at the bottom", function () {
+    nh.insert(-1, "the new least important");
+    const node = nh._items[arr.length];
+    expect(node.priority).toEqual(-1);
+    expect(node.value).toBe("the new least important");
+  });
+
   test("removeMax() returns and removes the first node of the priority queue and replaces it with the next most important node", function () {
     const node1 = nh.removeMax();
     expect(node1.priority).toEqual(99);
-    expect(node1.val).toBe("most important");
+    expect(node1.value).toBe("most important");
 
     const node2 = nh.getNext();
     expect(node2.priority).toEqual(36);
@@ -41,6 +55,27 @@ describe("Max Node Heap", function () {
       return n.priority;
     });
     expect(priorityArr).toEqual([99, 36, 25, 19, 17, 9, 7, 3, 2, 1]);
+  });
+
+  test("insert() and removeMax(): inserting a new value ensures that the removal order is still kept", function () {
+    nh.insert(22, "new value");
+    let valArr = nh.removeMax(arr.length + 1).map((n) => {
+      return n.priority;
+    });
+    expect(valArr).toEqual([99, 36, 25, 22, 19, 17, 9, 7, 3, 2, 1]);
+  });
+
+  test("create() and removeMax(): inserting an array of values ensures that the removal order is still kept", function () {
+    nh.create([
+      { priority: 22, value: "a" },
+      { priority: 45, value: "b" },
+      { priority: 87, value: "c" },
+      { priority: 32, value: "d" },
+    ]);
+    let valArr = nh.removeMax(arr.length + 4).map((n) => {
+      return n.priority;
+    });
+    expect(valArr).toEqual([99, 87, 45, 36, 32, 25, 22, 19, 17, 9, 7, 3, 2, 1]);
   });
 
   test("removeMax() throws an error if removal number is greater than heap length", function () {

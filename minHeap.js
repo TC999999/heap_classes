@@ -3,21 +3,24 @@ class MinHeap {
     this._items = [];
   }
 
+  //returns the first node of the queue
   getNext() {
     return this._items[0];
   }
 
+  //bubbles up any value at the bottom of the heap when its parent value is greater
+  //than its own value until it reaches its proper place
   bubbleUp() {
     let currentIdx = this._items.length - 1;
-    let val = this._items[currentIdx];
+    let value = this._items[currentIdx];
     let swapIdx = Math.floor(currentIdx / 2);
     if (currentIdx % 2 === 0) {
       swapIdx--;
     }
     let swapVal = this._items[swapIdx];
-    while (val < swapVal) {
+    while (value < swapVal) {
       this._items[currentIdx] = swapVal;
-      this._items[swapIdx] = val;
+      this._items[swapIdx] = value;
       currentIdx = swapIdx;
       swapIdx = Math.floor(swapIdx / 2);
       if (currentIdx % 2 === 0) {
@@ -27,20 +30,24 @@ class MinHeap {
     }
   }
 
-  insert(val) {
-    this._items.push(val);
+  //inserts a new value at the bottom of the heap and bubbles it up until it reaches its proper place
+  insert(value) {
+    this._items.push(value);
     if (this._items.length > 1) {
       this.bubbleUp();
     }
     return this._items;
   }
 
+  //adds new values from an array to the heap
   create(arr) {
-    for (let val of arr) {
-      this.insert(val);
+    for (let value of arr) {
+      this.insert(value);
     }
   }
 
+  //sinks down the top node when both its children values are greater
+  //than its own value until it reaches its proper place
   sinkDown() {
     let bottomIdx = 0;
     let leftIDX = 1;
@@ -82,7 +89,9 @@ class MinHeap {
       }
     }
   }
-
+  //removes the value at the start of the heap and moves the value at the end of the heap to the start
+  //the new top value then sinks down to its proper place. Returns all the values that were removed from
+  //the heap.
   removeMin(i = 1) {
     if (this._items.length === 0) {
       throw new Error("heap is empty");
@@ -108,6 +117,7 @@ class MinHeap {
   }
 }
 
+// takes an array of values, makes a heap out of them, and the removes top values until the heap is empty. Returns an array of values sorted from least to greatest
 function minHeapSort(arr) {
   let sortHeap = new MinHeap();
   sortHeap.create(arr);

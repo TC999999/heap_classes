@@ -12,6 +12,14 @@ describe("Min Heap", function () {
     expect(h.getNext()).toEqual(1);
   });
 
+  test("insert(): inserting a large value keeps it sunk to the bottom", function () {
+    expect(h.insert(100)[arr.length]).toEqual(100);
+  });
+
+  test("insert(): inserting a small value keeps it sunk at the bottom", function () {
+    expect(h.insert(-1)[0]).toEqual(-1);
+  });
+
   test("removeMin() returns and removes the first node of the heap and replaces it with the next most important node", function () {
     expect(h.removeMin()).toEqual(1);
     expect(h.getNext()).toEqual(2);
@@ -20,6 +28,20 @@ describe("Min Heap", function () {
   test("removeMin(arr.length) removes all nodes from the heap and returns an array of all the nodes in order from greatest to least", function () {
     expect(h.removeMin(arr.length)).toEqual([
       1, 2, 3, 7, 9, 17, 19, 25, 36, 99,
+    ]);
+  });
+
+  test("insert() and removeMin(): inserting a new value ensures that the removal order is still kept", function () {
+    h.insert(22);
+    expect(h.removeMin(arr.length + 1)).toEqual([
+      1, 2, 3, 7, 9, 17, 19, 22, 25, 36, 99,
+    ]);
+  });
+
+  test("create() and removeMin(): inserting an array of values ensures that the removal order is still kept", function () {
+    h.create([22, 45, 87, 32]);
+    expect(h.removeMin(arr.length + 4)).toEqual([
+      1, 2, 3, 7, 9, 17, 19, 22, 25, 32, 36, 45, 87, 99,
     ]);
   });
 

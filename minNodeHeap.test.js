@@ -3,16 +3,16 @@ let { MinNodeHeap, minHeapSort } = require("./minNodeHeap");
 describe("Min Node Heap", function () {
   let nh;
   let arr = [
-    { priority: 36, val: "ninth most important" },
-    { priority: 7, val: "fourth most important" },
-    { priority: 25, val: "eighth most important" },
-    { priority: 2, val: "second most important" },
-    { priority: 1, val: "most important" },
-    { priority: 99, val: "least important" },
-    { priority: 3, val: "third most important" },
-    { priority: 17, val: "sixth most important" },
-    { priority: 19, val: "seventh most important" },
-    { priority: 9, val: "fifth most important" },
+    { priority: 36, value: "ninth most important" },
+    { priority: 7, value: "fourth most important" },
+    { priority: 25, value: "eighth most important" },
+    { priority: 2, value: "second most important" },
+    { priority: 1, value: "most important" },
+    { priority: 99, value: "least important" },
+    { priority: 3, value: "third most important" },
+    { priority: 17, value: "sixth most important" },
+    { priority: 19, value: "seventh most important" },
+    { priority: 9, value: "fifth most important" },
   ];
   beforeEach(function () {
     nh = new MinNodeHeap();
@@ -25,10 +25,24 @@ describe("Min Node Heap", function () {
     expect(node.value).toBe("most important");
   });
 
+  test("insert(): inserting a large value keeps it sunk at the bottom", function () {
+    nh.insert(100, "the new least important");
+    const node = nh._items[arr.length];
+    expect(node.priority).toEqual(100);
+    expect(node.value).toBe("the new least important");
+  });
+
+  test("insert(): inserting a small value bubbles it up to the top", function () {
+    nh.insert(-1, "the new most important");
+    const node = nh.getNext();
+    expect(node.priority).toEqual(-1);
+    expect(node.value).toBe("the new most important");
+  });
+
   test("removeMin() returns and removes the first node of the priority queue and replaces it with the next most important node", function () {
     const node1 = nh.removeMin();
     expect(node1.priority).toEqual(1);
-    expect(node1.val).toBe("most important");
+    expect(node1.value).toBe("most important");
 
     const node2 = nh.getNext();
     expect(node2.priority).toEqual(2);
@@ -41,6 +55,27 @@ describe("Min Node Heap", function () {
       return n.priority;
     });
     expect(priorityArr).toEqual([1, 2, 3, 7, 9, 17, 19, 25, 36, 99]);
+  });
+
+  test("insert() and removeMin(): inserting a new value ensures that the removal order is still kept", function () {
+    nh.insert(22, "new value");
+    let valArr = nh.removeMin(arr.length + 1).map((n) => {
+      return n.priority;
+    });
+    expect(valArr).toEqual([1, 2, 3, 7, 9, 17, 19, 22, 25, 36, 99]);
+  });
+
+  test("create() and removeMin(): inserting an array of values ensures that the removal order is still kept", function () {
+    nh.create([
+      { priority: 22, value: "a" },
+      { priority: 45, value: "b" },
+      { priority: 87, value: "c" },
+      { priority: 32, value: "d" },
+    ]);
+    let valArr = nh.removeMin(arr.length + 4).map((n) => {
+      return n.priority;
+    });
+    expect(valArr).toEqual([1, 2, 3, 7, 9, 17, 19, 22, 25, 32, 36, 45, 87, 99]);
   });
 
   test("removeMin() throws an error if the removal number is greater than heap length", function () {

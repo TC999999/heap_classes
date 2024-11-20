@@ -1,7 +1,7 @@
 class MinNode {
-  constructor(priority, val) {
+  constructor(priority, value) {
     this.priority = priority;
-    this.val = val;
+    this.value = value;
   }
 }
 
@@ -14,13 +14,13 @@ class MinNodeHeap {
   //returns the current heap as a compact array
   getQueue() {
     return this._items.map((node) => {
-      return { priority: node.priority, value: node.val };
+      return { priority: node.priority, value: node.value };
     });
   }
 
-  //returns the next node in the start of the queue
+  //returns the first node of the queue
   getNext() {
-    return { priority: this._items[0].priority, value: this._items[0].val };
+    return { priority: this._items[0].priority, value: this._items[0].value };
   }
 
   //bubbles up any value at the bottom of the heap when its parent node priority value is greater
@@ -46,8 +46,8 @@ class MinNodeHeap {
   }
 
   //inserts a new node at the bottom of the heap and bubbles it up until it reaches its proper place
-  insert(priority, val) {
-    let node = new MinNode(priority, val);
+  insert(priority, value) {
+    let node = new MinNode(priority, value);
     this._items.push(node);
     if (this._items.length > 1) {
       this.bubbleUp();
@@ -57,7 +57,7 @@ class MinNodeHeap {
   //adds new items from an array to the heap
   create(nodeArr) {
     for (let node of nodeArr) {
-      this.insert(node.priority, node.val);
+      this.insert(node.priority, node.value);
     }
   }
 
@@ -139,7 +139,7 @@ class MinNodeHeap {
     }
     if (returnArr.length > 1) {
       return returnArr.map((item) => {
-        return { priority: item.priority, value: item.val };
+        return { priority: item.priority, value: item.value };
       });
     } else {
       return returnArr[0];
@@ -147,6 +147,7 @@ class MinNodeHeap {
   }
 }
 
+// takes an array of nodes, makes a heap out of them, and the removes top values until the heap is empty. Returns an array of nodes sorted by priority value from least to greatest
 function minHeapSort(arr) {
   let sortHeap = new MinNodeHeap();
   sortHeap.create(arr);

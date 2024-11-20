@@ -3,21 +3,25 @@ class Heap {
     this._items = [];
   }
 
+  //returns the value at the start of the queue
   getNext() {
     return this._items[0];
   }
 
+  //Iteratively and continuously swaps the value at the end of the heap with its
+  //parent value when the parent value is less than it. Continues until the current
+  //value's parent value is greater than its own
   bubbleUp() {
     let currentIdx = this._items.length - 1;
-    let val = this._items[currentIdx];
+    let value = this._items[currentIdx];
     let swapIdx = Math.floor(currentIdx / 2);
     if (currentIdx % 2 === 0) {
       swapIdx--;
     }
     let swapVal = this._items[swapIdx];
-    while (val > swapVal) {
+    while (value > swapVal) {
       this._items[currentIdx] = swapVal;
-      this._items[swapIdx] = val;
+      this._items[swapIdx] = value;
       currentIdx = swapIdx;
       swapIdx = Math.floor(swapIdx / 2);
       if (currentIdx % 2 === 0) {
@@ -27,20 +31,26 @@ class Heap {
     }
   }
 
-  insert(val) {
-    this._items.push(val);
+  //inserts a new value at the bottom of the heap and bubbles it up until it reaches its proper place
+  insert(value) {
+    this._items.push(value);
     if (this._items.length > 1) {
       this.bubbleUp();
     }
     return this._items;
   }
 
+  //adds new values from an array to the heap
   create(arr) {
-    for (let val of arr) {
-      this.insert(val);
+    for (let value of arr) {
+      this.insert(value);
     }
   }
 
+  //Iteratively and continuously swaps the value at the top of the heap with
+  //its child valueif it is greater (if current value has two child values and both values are
+  //higher, swaps with the greater child value). Continues until both of the the current value's
+  //child values are greater than its own or if the current value has no more child values.
   sinkDown() {
     let bottomIdx = 0;
     let leftIDX = 1;
@@ -83,6 +93,9 @@ class Heap {
     }
   }
 
+  //removes the value at the start of the heap and moves the value at the end of the heap to the start
+  //the new top value then sinks down to its proper place. Returns all the values that were removed from
+  //the heap.
   removeMax(i = 1) {
     if (this._items.length === 0) {
       throw new Error("heap is empty");
@@ -108,6 +121,7 @@ class Heap {
   }
 }
 
+// takes an array of values, makes a heap out of them, and the removes top values until the heap is empty. Returns an array of values sorted from greatest to least
 function heapSort(arr) {
   let sortHeap = new Heap();
   sortHeap.create(arr);

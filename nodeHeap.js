@@ -1,7 +1,7 @@
 class Node {
-  constructor(priority, val) {
+  constructor(priority, value) {
     this.priority = priority;
-    this.val = val;
+    this.value = value;
   }
 }
 
@@ -14,18 +14,19 @@ class NodeHeap {
   //returns the current heap as a compact array
   getQueue() {
     return this._items.map((node) => {
-      return { priority: node.priority, value: node.val };
+      return { priority: node.priority, value: node.value };
     });
   }
 
-  //returns the next node in the start of the queue
+  //returns the node at the start of the queue
   getNext() {
-    return { priority: this._items[0].priority, value: this._items[0].val };
+    return { priority: this._items[0].priority, value: this._items[0].value };
   }
 
   //Iteratively and continuously swaps the node at the end of the heap with its
-  //parent heap when the parent heap priority value is less than its own priority
-  //value. Continues until the current node's parent node priority value is greater than its own
+  //parent value when the parent node priority value is less than its own priority
+  //value. Continues until the current node's parent node priority value is greater
+  //than its own.
   bubbleUp() {
     let currentIdx = this._items.length - 1;
     let currNode = this._items[currentIdx];
@@ -47,8 +48,8 @@ class NodeHeap {
   }
 
   //inserts a new node at the bottom of the heap and bubbles it up until it reaches its proper place
-  insert(priority, val) {
-    let node = new Node(priority, val);
+  insert(priority, value) {
+    let node = new Node(priority, value);
     this._items.push(node);
     if (this._items.length > 1) {
       this.bubbleUp();
@@ -58,7 +59,7 @@ class NodeHeap {
   //adds new items from an array to the heap
   create(nodeArr) {
     for (let node of nodeArr) {
-      this.insert(node.priority, node.val);
+      this.insert(node.priority, node.value);
     }
   }
 
@@ -143,7 +144,7 @@ class NodeHeap {
     }
     if (returnArr.length > 1) {
       return returnArr.map((item) => {
-        return { priority: item.priority, value: item.val };
+        return { priority: item.priority, value: item.value };
       });
     } else {
       return returnArr[0];
@@ -151,6 +152,7 @@ class NodeHeap {
   }
 }
 
+// takes an array of nodes, makes a heap out of them, and the removes top values until the heap is empty. Returns an array of nodes sorted by priority value from greatest to least
 function maxHeapSort(arr) {
   let sortHeap = new NodeHeap();
   sortHeap.create(arr);
